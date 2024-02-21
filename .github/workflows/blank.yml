@@ -1,4 +1,4 @@
-name: Create File
+name: SSH Example
 
 on:
   push:
@@ -6,14 +6,14 @@ on:
       - main
 
 jobs:
-  create_file:
+  ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: Create File
-        run: echo "This is a new file" > new_file.txt
-      - name: Commit and Push
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: SSH into server
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          commit_message: "Add new_file.txt"
-          commit_user_name: "GitHub Action"
-          commit_user_email: "actions@github.com"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-know-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Run SSH command
+        run: ssh -o StrictHostKeyChecking=no ubuntu@ip-172-31-80-57 "echo Hello > from SSH command"
