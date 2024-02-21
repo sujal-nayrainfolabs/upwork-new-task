@@ -1,0 +1,19 @@
+name: Create File
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create File
+        run: echo "This is a new file" > new_file.txt
+      - name: Commit and Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Add new_file.txt"
+          commit_user_name: "GitHub Action"
+          commit_user_email: "actions@github.com"
